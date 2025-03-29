@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ case.title }}{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ case.title }}</h5>
+
+      <div class="mb-3">
+        <h6 class="card-subtitle mb-2">Приоритет:</h6>
+        <p>{{ case.priority }}</p>
+      </div>
+
+      <!-- Шаги в виде нумерованного списка -->
+      <div class="mb-3">
+        <h6 class="card-subtitle mb-2">Шаги:</h6>
+        <ol class="steps-list">
+          {% for step in case.steps.split(';') if step.strip() %}
+            <li>{{ step.strip() }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+
+      <!-- Ожидаемый результат -->
+      <div class="mb-3">
+        <h6 class="card-subtitle mb-2">Ожидаемый результат:</h6>
+        <p>{{ case.oj_res }}</p>
+      </div>
+
+      <!-- Описание -->
+      <div class="mb-3">
+        <h6 class="card-subtitle mb-2">Описание:</h6>
+        <p>{{ case.description }}</p>
+      </div>
+
+      <a href="{{ url_for('cases') }}" class="btn btn-secondary">&larr; Назад</a>
+    </div>
+  </div>
+{% endblock %}
