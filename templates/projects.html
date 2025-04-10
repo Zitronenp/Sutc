@@ -16,7 +16,7 @@
     </a>
 </div>
     </div>
-
+    
     {% if projects %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for project in projects %}
@@ -24,10 +24,10 @@
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">{{ project.title }}</h5>
-                    <p class="card-text text-muted">
-                        Создан: {{ project.created_at.strftime('%d.%m.%Y') if project.created_at else 'N/A' }}
-                    </p>
                     <p class="card-text">
+                        Создан: {{ project.created_at.strftime('%d.%m.%Y') }}
+                    </p>
+                    <p class="card-text text-muted">
                         Кейсов: {{ project.cases|length }}
                     </p>
                 </div>

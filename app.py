@@ -20,7 +20,7 @@ def load_user(user_id):
 @app.route('/')
 def index():
     if current_user.is_authenticated:
-        return render_template('projects.html', user_id=current_user.id)
+        return redirect(url_for('projects'))
     else:
         return render_template('index.html')
 
@@ -34,7 +34,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('profile'))
+            return redirect(url_for('projects'))
         else:
             flash('Invalid username or password')
     return render_template('login.html')
@@ -64,7 +64,7 @@ def register():
 @login_required
 def projects():
     # Получаем проекты только для текущего пользователя
-    user_projects = Project.query.filter_by(author_id=current_user.id).order_by(Project.created_at.desc()).all()
+    user_projects = current_user.projects
     return render_template('projects.html', projects=user_projects)
 
 
@@ -104,6 +104,8 @@ def create_project():
         title = request.form['title']
         new_project = Project(title=title, author_id=current_user.id)
         db.session.add(new_project)
+        new_project.users.append(current_user)
+
         db.session.commit()
         return redirect(url_for('projects'))
 
