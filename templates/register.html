@@ -6,7 +6,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h1 class="text-center">Вход на сайт</h1>
+            <h1 class="text-center">Регистрация</h1>
           </div>
           <div class="card-body">
             {% with messages = get_flashed_messages() %}
@@ -29,8 +29,12 @@
                 <label for="password" class="form-label">Пароль:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
               </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary">Войти</button>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
               </div>
             </form>
           </div>

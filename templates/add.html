@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Добавление задачи{% endblock %}
+
+{% block content %}
+    <h1>Добавление задачи</h1>
+    <div class="col-8">
+        <form method="POST" action="/add" id="taskForm">
+            <div class="form-group">
+                <label for="title">Название:</label>
+                <input type="text" class="form-control" name="title" id="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Приоритет:</label>
+                <select class="form-control" name="priority" id="priority" required>
+                    <option value="High">High</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+             <div class="form-group">
+                <label>Шаги:</label>
+                <div id="stepsContainer">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control step-input" name="step[]" placeholder="Введите шаг">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary add-step" type="button">+</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Скрытое поле для хранения всех шагов -->
+                <input type="hidden" name="steps" id="stepsInput" required>
+            </div>
+
+            <div class="form-group">
+                <label for="oj_res">Ожидаемый результат:</label>
+                <textarea class="form-control" name="oj_res" id="oj_res" rows="3" style="resize: vertical;" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <textarea class="form-control" name="description" id="description" rows="5" style="resize: vertical;" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+            <a href="/cases" class="btn btn-secondary mt-3">Назад</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const stepsContainer = document.getElementById('stepsContainer');
+
+            // Добавление нового шага
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-step')) {
+                    const newStepGroup = document.createElement('div');
+                    newStepGroup.className = 'input-group mb-2';
+                    newStepGroup.innerHTML = `
+                        <input type="text" class="form-control step-input" name="step[]" placeholder="Введите шаг">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger remove-step" type="button">−</button>
+                        </div>
+                    `;
+                    stepsContainer.appendChild(newStepGroup);
+                }
+
+                // Удаление шага
+                if (e.target.classList.contains('remove-step')) {
+                    e.target.closest('.input-group').remove();
+                }
+            });
+
+            // Обработка отправки формы
+            document.getElementById('taskForm').addEventListener('submit', function(e) {
+                // Собираем все шаги в одну строку
+                const stepInputs = document.querySelectorAll('.step-input');
+                const steps = Array.from(stepInputs)
+                    .map(input => input.value.trim())
+                    .filter(step => step.length > 0);
+
+                document.getElementById('stepsInput').value = steps.join('; ');
+
+                // Если нет шагов - отменяем отправку
+                if (steps.length === 0) {
+                    e.preventDefault();
+                    alert('Добавьте хотя бы один шаг!');
+                }
+            });
+        });
+    </script>
+{% endblock %}

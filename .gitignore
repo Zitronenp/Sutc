@@ -1,0 +1,34 @@
+# Виртуальное окружение
+venv/
+.env/
+.venv/
+
+# Кеш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Файлы зависимостей (можно генерировать заново)
+*.egg-info/
+dist/
+build/
+
+# Файлы IDE/редакторов
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи и временные файлы
+*.log
+*.sqlite
+*.db
+
+# Файлы настроек (если есть секреты)
+config.py
+.env
+secrets.json
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+showbd.py
